@@ -12,25 +12,25 @@ int main(int argc, char *argv[])
 {
 	int i;
 	unsigned int j, sum = 0;
-	char *e;
+	char *c;
 
 	if (argc > 1)
 	{
 		for (i = 1; i < argc; i++)
 		{
-			e = argv[i];
+			c = argv[i];
 
-			for (j = 0; j < strlen(e); j++)
+			for (j = 0; j < strlen(c); j++)
 			{
-				if (e[j] < 48 || e[j] > 57)
+				if (c[j] < 48 || c[j] > 57)
 				{
 					printf("Error\n");
 					return (1);
 				}
 			}
 
-			sum = sum + atoi(e);
-			e++;
+			sum = sum + atoi(c);
+			c++;
 		}
 
 		printf("%d\n", sum);
