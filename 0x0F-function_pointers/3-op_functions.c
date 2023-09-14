@@ -9,20 +9,27 @@
  * op_mod - returns the remainder of division of a and b
  * @a: parameter 1
  * @b: parameter 2
+ * Return: Result of the operation
  */
 
 int op_add(int a, int b)
+{
 	return (a + b);
+}
 
 int op_sub(int a, int b)
+{
 	return (a - b);
-
+}
 int op_mul(int a, int b)
+{
 	return (a * b);
-
+}
 int op_div(int a, int b)
+{
 	return (a / b);
-
+}
 int op_mod(int a, int b)
+{
 	return (a % b);
-
+}

@@ -9,14 +9,15 @@
   * Return: 0 (success)
   */
 
-int main(int (void) argc, char argv[])
+int main(int argc, char *argv[])
 {
-	int num1, num2;
+	int num1 = 0;
+	int num2 = 0;
 	char *op;
 
 	if (argc != 4)
 	{
-		printf("Error\n")
+		printf("Error\n");
 			exit (98);
 	}
 
