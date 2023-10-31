@@ -1,4 +1,21 @@
-#include "main.h"
+#include <elf.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+void _elf(unsigned char *e_ident);
+void dis_magic(unsigned char *e_ident);
+void dis_class(unsigned char *e_ident);
+void dis_data(unsigned char *e_ident);
+void dis_version(unsigned char *e_ident);
+void dis_abi(unsigned char *e_ident);
+void dis_osabi(unsigned char *e_ident);
+void dis_type(unsigned int e_type, unsigned char *e_ident);
+void dis_entry(unsigned long int e_entry, unsigned char *e_ident);
+void close_elf(int elf);
 
 /**
  * _elf - Checks if ELF file.
