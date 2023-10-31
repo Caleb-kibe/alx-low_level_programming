@@ -2,18 +2,18 @@
 
 /**
  * _elf - Checks if ELF file.
- * @e_arr: pointer to an array containing ELF magic numbers.
+ * @e_ident: pointer to an array containing ELF magic numbers.
  */
-void _elf(unsigned char *e_arr)
+void _elf(unsigned char *e_ident)
 {
 	int i;
 
 	for (i = 0; i < 4; i++)
 	{
-		if (e_arr[i] != 127 &&
-				e_arr[i] != 'E' &&
-				e_arr[i] != 'L' &&
-				e_arr[i] != 'F')
+		if (e_ident[i] != 127 &&
+				e_ident[i] != 'E' &&
+				e_ident[i] != 'L' &&
+				e_ident[i] != 'F')
 		{
 			dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
 			exit(98);
@@ -23,9 +23,9 @@ void _elf(unsigned char *e_arr)
 
 /**
  * dis_magic - Prints magic numbers of ELF header.
- * @e_arr: pointer to an array containing ELF magic numbers.
+ * @e_ident: pointer to an array containing ELF magic numbers.
  */
-void dis_magic(unsigned char *e_arr)
+void dis_magic(unsigned char *e_ident)
 {
 	int i;
 
@@ -33,7 +33,7 @@ void dis_magic(unsigned char *e_arr)
 
 	for (i = 0; i < EI_NIDENT; i++)
 	{
-		printf("%02x", e_arr[i]);
+		printf("%02x", e_ident[i]);
 
 		if (i == EI_NIDENT - 1)
 			printf("\n");
@@ -44,13 +44,13 @@ void dis_magic(unsigned char *e_arr)
 
 /**
  * dis_class - Prints the class of an ELF header.
- * @e_arr: pointer to array containing ELF class.
+ * @e_ident: pointer to array containing ELF class.
  */
-void dis_class(unsigned char *e_arr)
+void dis_class(unsigned char *e_ident)
 {
 	printf("  Class:                             ");
 
-	switch (e_arr[EI_CLASS])
+	switch (e_ident[EI_CLASS])
 	{
 		case ELFCLASSNONE:
 			printf("none\n");
@@ -62,19 +62,19 @@ void dis_class(unsigned char *e_arr)
 			printf("ELF64\n");
 			break;
 		default:
-			printf("<unknown: %x>\n", e_arr[EI_CLASS]);
+			printf("<unknown: %x>\n", e_ident[EI_CLASS]);
 	}
 }
 
 /**
  * dis_data - Prints the data of ELF header.
- * @e_arr: pointer to an array containing ELF class.
+ * @e_ident: pointer to an array containing ELF class.
  */
-void dis_data(unsigned char *e_arr)
+void dis_data(unsigned char *e_ident)
 {
 	printf("  Data:                              ");
 
-	switch (e_arr[EI_DATA])
+	switch (e_ident[EI_DATA])
 	{
 		case ELFDATANONE:
 			printf("none\n");
@@ -86,20 +86,20 @@ void dis_data(unsigned char *e_arr)
 			printf("2's complement, big endian\n");
 			break;
 		default:
-			printf("<unknown: %x>\n", e_arr[EI_CLASS]);
+			printf("<unknown: %x>\n", e_ident[EI_CLASS]);
 	}
 }
 
 /**
  * dis_version - Prints the version of ELF header.
- * @e_arr: pointer to array containing ELF version.
+ * @e_ident: pointer to array containing ELF version.
  */
-void dis_version(unsigned char *e_arr)
+void dis_version(unsigned char *e_ident)
 {
 	printf("  Version:                           %d",
-			e_arr[EI_VERSION]);
+			e_ident[EI_VERSION]);
 
-	switch (e_arr[EI_VERSION])
+	switch (e_ident[EI_VERSION])
 	{
 		case EV_CURRENT:
 			printf(" (current)\n");
@@ -112,13 +112,13 @@ void dis_version(unsigned char *e_arr)
 
 /**
  * dis_osabi - Prints OS/ABI of ELF header.
- * @e_arr: pointer to an array containing the ELF version.
+ * @e_ident: pointer to an array containing the ELF version.
  */
-void dis_osabi(unsigned char *e_arr)
+void dis_osabi(unsigned char *e_ident)
 {
 	printf("  OS/ABI:                            ");
 
-	switch (e_arr[EI_OSABI])
+	switch (e_ident[EI_OSABI])
 	{
 		case ELFOSABI_NONE:
 			printf("UNIX - System V\n");
@@ -151,28 +151,28 @@ void dis_osabi(unsigned char *e_arr)
 			printf("Standalone App\n");
 			break;
 		default:
-			printf("<unknown: %x>\n", e_arr[EI_OSABI]);
+			printf("<unknown: %x>\n", e_ident[EI_OSABI]);
 	}
 }
 
 /**
  * dis_abi - Prints the ABI version
- * @e_arr: pointer to an array containing ELF ABI version.
+ * @e_ident: pointer to an array containing ELF ABI version.
  */
-void dis_abi(unsigned char *e_arr)
+void dis_abi(unsigned char *e_ident)
 {
 	printf("  ABI Version:                       %d\n",
-			e_arr[EI_ABIVERSION]);
+			e_ident[EI_ABIVERSION]);
 }
 
 /**
  * dis_type - Prints type of ELF header.
  * @e_type: ELF type.
- * @e_arr: pointer to array containing ELF class.
+ * @e_ident: pointer to array containing ELF class.
  */
-void dis_type(unsigned int e_type, unsigned char *e_arr)
+void dis_type(unsigned int e_type, unsigned char *e_ident)
 {
-	if (e_arr[EI_DATA] == ELFDATA2MSB)
+	if (e_ident[EI_DATA] == ELFDATA2MSB)
 		e_type >>= 8;
 
 	printf("  Type:                              ");
@@ -202,20 +202,20 @@ void dis_type(unsigned int e_type, unsigned char *e_arr)
 /**
  * dis_entry - Prints entry point of ELF header.
  * @e_entry: address of the ELF entry point.
- * @e_arr: pointer to array containing ELF class.
+ * @e_ident: pointer to array containing ELF class.
  */
-void dis_entry(unsigned long int e_entry, unsigned char *e_arr)
+void dis_entry(unsigned long int e_entry, unsigned char *e_ident)
 {
 	printf("  Entry point address:               ");
 
-	if (e_arr[EI_DATA] == ELFDATA2MSB)
+	if (e_ident[EI_DATA] == ELFDATA2MSB)
 	{
 		e_entry = ((e_entry << 8) & 0xFF00FF00) |
 			((e_entry >> 8) & 0xFF00FF);
 		e_entry = (e_entry << 16) | (e_entry >> 16);
 	}
 
-	if (e_arr[EI_CLASS] == ELFCLASS32)
+	if (e_ident[EI_CLASS] == ELFCLASS32)
 		printf("%#x\n", (unsigned int)e_entry);
 
 	else
@@ -269,16 +269,16 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 		exit(98);
 	}
 
-	_elf(header->e_arr);
+	_elf(header->e_ident);
 	printf("ELF Header:\n");
-	dis_magic(header->e_arr);
-	dis_class(header->e_arr);
-	dis_data(header->e_arr);
-	dis_version(header->e_arr);
-	dis_osabi(header->e_arr);
-	dis_abi(header->e_arr);
-	dis_type(header->e_type, header->e_arr);
-	dis_entry(header->e_entry, header->e_arr);
+	dis_magic(header->e_ident);
+	dis_class(header->e_ident);
+	dis_data(header->e_ident);
+	dis_version(header->e_ident);
+	dis_osabi(header->e_ident);
+	dis_abi(header->e_ident);
+	dis_type(header->e_type, header->e_ident);
+	dis_entry(header->e_entry, header->e_ident);
 
 	free(header);
 	close_elf(fo);
