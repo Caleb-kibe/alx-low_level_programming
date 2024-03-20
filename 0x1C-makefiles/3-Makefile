@@ -18,8 +18,6 @@ clean:
 oclean:
 	${RM} ${OBJ}
 
-fclean:
-	${RM} *~ ${NAME} ${OBJ}
+fclean: clean oclean
 
-re:
-	all
+re: all fclean
