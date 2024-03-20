@@ -1,5 +1,3 @@
-.PHONY: all clean
-
 CC = gcc
 SRC = main.c school.c
 OBJ = ${SRC:.c=.o}
@@ -11,6 +9,3 @@ all: ${SRC}
 
 %.o: %.c
 	${CC} -c $< -o $@
-
-clean:
-	rm -f ${OBJ} ${NAME}
