@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 """defines a function that finds the perimeter of an island"""
+
+
 def island_perimeter(grid):
     """return the perimeter of the island
     0 in the grid representts water zone
